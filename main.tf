@@ -60,7 +60,7 @@ instance_type = "t2.micro"              # Provide the instance type for the inst
 key_name = "ubuntu_key"                 # Provide the name of the keypair for the instance
 subnet_id = "aws_subnet.public.id"      # Associate the subnet for the instance
 availability_zone = "us-east-1a"
-vpc_security_group_ids = "aws_security_group.my_sg.id"
+vpc_security_group_ids = [aws_security_group.my_sg.id]
 }
 resource "aws_instance" "private_instance" {     
 ami = "ami-0c7217cdde317cfec"           # AMI of the instance
@@ -68,7 +68,7 @@ instance_type = "t2.medium"              # Provide the instance type for the ins
 key_name = "ubuntu_key"                 # Provide the name of the keypair for the instance
 subnet_id = "aws_subnet.private.id"      # Associate the subnet for the instance
 availability_zone = "us-east-1a"
-vpc_security_group_ids = "aws_security_group.my_sg.id"
+vpc_security_group_ids = [aws_security_group.my_sg.id]
 }
 resource "aws_security_group" "my_sg" {
 name        = "my_sg"
@@ -100,12 +100,12 @@ vpc_id = "aws_vpc.my_vpc.id"
     cidr_blocks = ["0.0.0.0/0"]
   }
 }
-resource "aws_volume" "my_volume" {
+resource "aws_ebs_volume" "my_volume" {
   availability_zone = "us-east-1a"
   size              = 20  # Size of the volume in gigabytes
   type              = "gp2"  # EBS volume type
 }  
-resource "aws_volume_attachment" "attach" {
+resource "aws_ebs_volume_attachment" "attach" {
   volume_id          = aws_volume.my_volume.id
   instance_id        = aws_instance.web.id
   device_name        = "/dev/sdf"  # Change this to the desired device name on the instance
