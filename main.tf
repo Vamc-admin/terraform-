@@ -106,7 +106,7 @@ resource "aws_ebs_volume" "my_volume" {
   type              = "gp2"  # EBS volume type
 }  
 resource "aws_volume_attachment" "attach" {
-  volume_id          = aws_volume.my_volume.id
+  volume_id          = "aws_volume.my_volume.id"
   instance_id        = aws_instance.web.id
   device_name        = "/dev/sdf"  # Change this to the desired device name on the instance
 }
